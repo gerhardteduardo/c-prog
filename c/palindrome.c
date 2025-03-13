@@ -1,18 +1,24 @@
 #include <stdio.h>
 #include <string.h>
+#include <stdbool.h>
 
-void CheckIsPalindrome() {
+bool CheckIsPalindrome() {
   char str[] = "arara";
 
   for (int i=0; i < 5; i++) {
     int size = strlen(str);
     if (!(str[i] == str[((size - 1) - i)])) {
-      printf("Not Palindrome");
-      break;
+      return false;
     }
   }
+
+  return true;
 }
 
 int main() {
-  CheckIsPalindrome();
+  if (CheckIsPalindrome()) {
+    printf("# Is Palindrome! :)\n");
+  } else {
+    printf("# Isn't Palindrome! :(\n");
+  }
 }
