@@ -5,11 +5,7 @@ using namespace std;
 
 #define word "engineering"
 
-int main() {
-  char letter;
-  int size = strlen(word);
-
-
+void header(int size) {
   cout << "#***************************************#" << endl;
   cout << "#                HANGMAN                #" << endl;
   cout << "#***************************************#" << endl;
@@ -18,9 +14,16 @@ int main() {
   for (int i=0; i < size; i++) {
     cout << "_ ";
   }
+}
+
+int main() {
+  char letter;
+  int size = strlen(word);
+
+  header(size);
+ 
 
   while (true) { 
-  
     cout << "\n\nChute uma letra: ";
     cin >> letter;
 
