@@ -1,4 +1,5 @@
 #include <iostream>
+#include <cstring>
 
 using namespace std;
 
@@ -6,13 +7,30 @@ using namespace std;
 
 int main() {
   char letter;
+  int size = strlen(word);
 
-  cout << "Chute uma letra: ";
-  cin >> letter;
 
-  if (letter == word[0]) {
-    cout << letter << endl;
+  cout << "#***************************************#" << endl;
+  cout << "#                HANGMAN                #" << endl;
+  cout << "#***************************************#" << endl;
+  cout << "# " << size << " letras" << endl;
+
+  for (int i=0; i < size; i++) {
+    cout << "_ ";
   }
+
+  while (true) { 
+  
+    cout << "\n\nChute uma letra: ";
+    cin >> letter;
+
+    for (int i=0; i < size; i++) {
+      if (letter == word[i]) {
+        cout << letter << endl;
+      }
+    }
+  }
+
 
   return 0;
 }
