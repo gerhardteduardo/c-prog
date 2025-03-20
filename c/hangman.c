@@ -51,16 +51,15 @@ int main() {
       great = great + count;
     }
 
-  //   // if (great == size) {
-  //   //   cout << "Parabéns, você encontrou a palavra secreta: " << word << endl;
-  //   //   cout << "🎉🎉🎉🎉🎉🎉🎉" << endl;
-  //   //   run = false;
-  //   // } else if (errors == MAX_ERRORS) {
-  //   //   cout << "Infelizmente você não encontrou a palavra secreta: " << SECRET_WORD << endl;
-  //   //   cout << "😓😓😓😓😓😓😓";
-  //   //   run = false;
-  //   // }
-  //   // cout << endl;
+    if (great == size) {
+      printf("\nParabéns, você encontrou a palavra secreta: %s", word);
+      printf("\n🎉🎉🎉🎉🎉🎉🎉\n");
+      run = false;
+    } else if (errors == MAX_ERRORS) {
+      printf("\nInfelizmente você não encontrou a palavra secreta: %s", SECRET_WORD);
+      printf("\n😓😓😓😓😓😓😓\n");
+      run = false;
+    }
   } while (run);
   return 0;
 }
