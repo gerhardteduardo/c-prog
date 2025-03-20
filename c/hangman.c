@@ -3,7 +3,7 @@
 #include <stdbool.h>
 
 #define SECRET_WORD "engineering"
-#define MAX_ERRORS 7
+#define MAX_ERRORS 5
 
 void header(int size) {
   printf("#***************************************#\n");
