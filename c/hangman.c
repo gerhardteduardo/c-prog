@@ -2,14 +2,13 @@
 #include <string.h>
 #include <stdbool.h>
 
-
 #define SECRET_WORD "engineering"
 #define MAX_ERRORS 7
 
 void header(int size) {
   printf("#***************************************#\n");
-  printf("#***************************************#\n");
   printf("#                HANGMAN                #\n");
+  printf("#***************************************#\n");
   printf("# %d letras\n\n", size);
 }
 
@@ -23,39 +22,34 @@ int main() {
 
   header(size);
  
-  
   for (int i=0; i < size; i++) {
     word[i] = '_';
   }
 
   do {
     int count = 0;
-    printf("%s\n", word);
+    printf("\n%s\n", word);
     printf("Erros: %d/7\n", errors);
     printf("Chute uma letra: ");
-    scanf("%c", &letter);
+    scanf(" %c", &letter);
 
-    printf("\n\nSeu chute: %c\n", letter);
-    
-  //   // for (int i=0; i < size; i++) {
-  //   //   if (letter == SECRET_WORD[i]) {
-  //   //     if (letter == word[i]) {
-  //   //       cout << "Você ja chutou essa letra!";
-  //   //       break;
-  //   //     } else {
-  //   //       word[i] = letter;
-  //   //       count++;
-  //   //     }
-  //   //   }
-  //   // }
+    for (int i=0; i < size; i++) {
+      if (letter == SECRET_WORD[i]) {
+        if (letter == word[i]) {
+          printf("Você ja chutou essa letra!\n\n");
+          break;
+        } else {
+          word[i] = letter;
+          count++;
+        }
+      }
+    }
 
-  //   // if (count == 0) {
-  //   //   errors++;
-  //   // } else {
-  //   //   great = great + count;
-  //   // }
-
-  //   // cout << endl;
+    if (count == 0) {
+      errors++;
+    } else {
+      great = great + count;
+    }
 
   //   // if (great == size) {
   //   //   cout << "Parabéns, você encontrou a palavra secreta: " << word << endl;
@@ -67,9 +61,6 @@ int main() {
   //   //   run = false;
   //   // }
   //   // cout << endl;
-    run = false;
   } while (run);
-
-
   return 0;
 }
