@@ -8,8 +8,8 @@
 
 void header(int size) {
   printf("#***************************************#\n");
-  printf("#                HANGMAN                #\n");
   printf("#***************************************#\n");
+  printf("#                HANGMAN                #\n");
   printf("# %d letras\n\n", size);
 }
 
@@ -28,15 +28,15 @@ int main() {
     word[i] = '_';
   }
 
-  printf("%s\n", word);
+  do {
+    int count = 0;
+    printf("%s\n", word);
+    printf("Erros: %d/7\n", errors);
+    printf("Chute uma letra: ");
+    scanf("%c", &letter);
 
-  // do {
-  //   int count = 0;
-  //   // cout << word << endl;
-  //   // cout << "Erros: " << errors << "/7" << endl;
-  //   // cout << "Chute uma letra: ";
-  //   // cin >> letter;
-
+    printf("\n\nSeu chute: %c\n", letter);
+    
   //   // for (int i=0; i < size; i++) {
   //   //   if (letter == SECRET_WORD[i]) {
   //   //     if (letter == word[i]) {
@@ -67,7 +67,8 @@ int main() {
   //   //   run = false;
   //   // }
   //   // cout << endl;
-  // } while (run);
+    run = false;
+  } while (run);
 
 
   return 0;
