@@ -12,13 +12,46 @@ void header(int size) {
   printf("# %d letras\n\n", size);
 }
 
+bool isCorrect(char letter, char *ptr) {
+  bool ret = false;
+  for (int i=0; i < strlen(SECRET_WORD); i++) {
+    if (letter == SECRET_WORD[i]) {
+      ptr[i] = letter;
+      ret = true;
+    }
+  }
+  return ret;
+}
+
+bool isError(char letter, char *ptr) {
+  bool ret = true;
+  for (int i=0; i < MAX_ERRORS; i++) {
+    if (letter == ptr[i]) {
+      ret = false;
+    }
+  }
+  if (ret) {
+    ptr[strlen(ptr)] = letter;
+  }
+  return ret;
+}
+
+bool isWin(char *ptr) {
+  bool ret = true;
+  for (int i=0; i < strlen(SECRET_WORD); i++) {
+    if (ptr[i] != SECRET_WORD[i]) {
+      ret = false;
+    }
+  }
+  return ret;
+}
+
 int main() {
   char letter;
   int size = strlen(SECRET_WORD);
   char word[size + 1];
+  char kicks[MAX_ERRORS + 1];
   bool run = true;
-  int great = 0;
-  int errors = 0;
 
   header(size);
  
@@ -29,33 +62,21 @@ int main() {
   do {
     int count = 0;
     printf("\n%s\n", word);
-    printf("Erros: %d/7\n", errors);
+    printf("Chutes errados (%ld/5): %s\n", strlen(kicks), kicks);
     printf("Chute uma letra: ");
     scanf(" %c", &letter);
 
-    for (int i=0; i < size; i++) {
-      if (letter == SECRET_WORD[i]) {
-        if (letter == word[i]) {
-          printf("Você ja chutou essa letra!\n\n");
-          break;
-        } else {
-          word[i] = letter;
-          count++;
-        }
+    if (!isCorrect(letter, word)) {
+      if (!isError(letter, kicks)) {
+        printf("Você ja chutou essa letra!\n\n");
       }
     }
 
-    if (count == 0) {
-      errors++;
-    } else {
-      great = great + count;
-    }
-
-    if (great == size) {
+    if (isWin(word)) {
       printf("\nParabéns, você encontrou a palavra secreta: %s", word);
       printf("\n🎉🎉🎉🎉🎉🎉🎉\n");
       run = false;
-    } else if (errors == MAX_ERRORS) {
+    } else if (strlen(kicks) == MAX_ERRORS) {
       printf("\nInfelizmente você não encontrou a palavra secreta: %s", SECRET_WORD);
       printf("\n😓😓😓😓😓😓😓\n");
       run = false;
