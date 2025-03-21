@@ -3,8 +3,8 @@
 #include <stdbool.h>
 #include <unistd.h>
 #include <stdlib.h>
+#include <time.h>
 
-#define SECRET_WORD "engineering"
 #define MAX_ERRORS 5
 
 void clear() {
@@ -49,11 +49,10 @@ void hangman(int errors) {
   printf("\n_|_");
 }
 
-
-bool isCorrect(char letter, char *ptr) {
+bool isCorrect(char letter, char *ptr,  const char *secret) {
   bool ret = false;
-  for (int i=0; i < strlen(SECRET_WORD); i++) {
-    if (letter == SECRET_WORD[i]) {
+  for (int i=0; i < strlen(secret); i++) {
+    if (letter == secret[i]) {
       ptr[i] = letter;
       ret = true;
     }
@@ -74,28 +73,64 @@ bool isError(char letter, char *ptr) {
   return ret;
 }
 
-bool isWin(char *ptr) {
+bool isWin(char *ptr, const char *secret) {
   bool ret = true;
-  for (int i=0; i < strlen(SECRET_WORD); i++) {
-    if (ptr[i] != SECRET_WORD[i]) {
+  for (int i=0; i < strlen(secret); i++) {
+    if (ptr[i] != secret[i]) {
       ret = false;
     }
   }
   return ret;
 }
 
+bool randomWord(char *ptr) {
+  FILE *fp = NULL;
+  char word[256];
+
+  fp = fopen("words.txt", "r");
+
+  if (fp == NULL) {
+    printf("Erro ao abrir o arquivo.\n");
+    return false;
+  }
+
+  srand((unsigned int) time(NULL));
+
+  for (int i = 0; i <= (rand() % 100); i++) {
+    if (fgets(word, sizeof(word), fp) == NULL) {
+      fclose(fp);
+      return false;
+    }
+  }
+
+  word[strcspn(word, "\r\n")] = 0;
+  strcpy(ptr, word);
+
+  fclose(fp);
+  return true;
+}
+
 int main() {
   char letter;
-  int size = strlen(SECRET_WORD);
-  char word[size + 1];
-  char kicks[MAX_ERRORS + 1];
+  int size;
+  char secret_word[256];
+  char kicks[MAX_ERRORS + 1] = "";
   bool run = true;
+
+  if (!randomWord(secret_word)) {
+    return 0;
+  } else {
+    size = strlen(secret_word);
+  }
+
+  char word[size + 1];
 
   header(size);
  
   for (int i=0; i < size; i++) {
     word[i] = '_';
   }
+  word[size] = '\0';
 
   do {
     printf("\n# %s\n", kicks);
@@ -107,18 +142,18 @@ int main() {
     clear();
     usleep(100000);
 
-    if (!isCorrect(letter, word)) {
+    if (!isCorrect(letter, word, secret_word)) {
       if (!isError(letter, kicks)) {
         printf("Você ja chutou essa letra!\n");
       }
     }
 
-    if (isWin(word)) {
+    if (isWin(word, secret_word)) {
       printf("\nParabéns, você encontrou a palavra secreta: %s", word);
       printf("\n🎉🎉🎉🎉🎉🎉🎉\n");
       run = false;
     } else if (strlen(kicks) == MAX_ERRORS) {
-      printf("\nInfelizmente você não encontrou a palavra secreta: %s", SECRET_WORD);
+      printf("\nInfelizmente você não encontrou a palavra secreta: %s", secret_word);
       printf("\n😓😓😓😓😓😓😓\n");
       run = false;
     }
