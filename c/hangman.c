@@ -1,9 +1,19 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdbool.h>
+#include <unistd.h>
+#include <stdlib.h>
 
 #define SECRET_WORD "engineering"
 #define MAX_ERRORS 5
+
+void clear() {
+  #ifdef _WIN32
+      system("cls");
+  #else
+      system("clear");
+  #endif
+}
 
 void header(int size) {
   printf("#***************************************#\n");
@@ -11,6 +21,34 @@ void header(int size) {
   printf("#***************************************#\n");
   printf("# %d letras\n\n", size);
 }
+
+void hangman(int errors) {
+  printf(" ______");
+  printf("\n |    |");
+  if (errors > 0) {
+    printf("\n |    o ");
+  } else {
+    printf("\n |     ");
+  }
+  if (errors > 1) {
+    printf("\n |   /|\\");
+  } else {
+    printf("\n |     ");
+  }
+  if (errors > 2) {
+    printf("\n |    |");
+  } else {
+    printf("\n |     ");
+  }
+  if (errors > 3) {
+    printf("\n |   / \\");
+  } else {
+    printf("\n |     ");
+  }
+  printf("\n |");
+  printf("\n_|_");
+}
+
 
 bool isCorrect(char letter, char *ptr) {
   bool ret = false;
@@ -60,15 +98,18 @@ int main() {
   }
 
   do {
-    int count = 0;
-    printf("\n%s\n", word);
-    printf("Chutes errados (%ld/5): %s\n", strlen(kicks), kicks);
-    printf("Chute uma letra: ");
+    printf("\n# %s\n", kicks);
+    hangman(strlen(kicks));
+    printf("   %s\n\n", word);
+    printf("Chute: ");
     scanf(" %c", &letter);
+
+    clear();
+    usleep(100000);
 
     if (!isCorrect(letter, word)) {
       if (!isError(letter, kicks)) {
-        printf("Você ja chutou essa letra!\n\n");
+        printf("Você ja chutou essa letra!\n");
       }
     }
 
